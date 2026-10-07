@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/*
+ * VERTEX — architectural palette. Deep charcoal and black, concrete and steel
+ * greys, warm white for type, and a restrained copper/orange that is only ever
+ * an accent: markers, rules, single words, never a surface.
+ */
+@theme {
+  --color-void: #0a0a0b;
+  --color-charcoal: #121214;
+  --color-concrete: #1c1c1f;
+  --color-steel: #2a2a2e;
+  --color-line: #ffffff14;
+  --color-line-strong: #ffffff2e;
+  --color-chalk: #f4f2ef;
+  --color-mute: #a3a19d;
+  --color-faint: #6f6e6b;
+  --color-copper: #e2652a;
+  --color-copper-soft: #e2652a26;
+
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-void);
+    color: var(--color-chalk);
+    font-family: var(--font-sans);
+    /* Horizontal scroll is never wanted on a pinned, transform-heavy page. */
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-copper);
+    color: #fff;
+  }
+
+  /* Anchors must clear the fixed navigation. */
+  section[id] {
+    scroll-margin-top: 72px;
+  }
+}
+
+@layer components {
+  .frame {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .frame {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .frame {
+      padding-inline: 4rem;
+    }
+  }
+
+  /* Architectural signage: tight, heavy, slightly condensed. */
+  .signage {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  /* Technical labels — drawing-sheet annotations. */
+  .spec {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+
+  .rule {
+    height: 1px;
+    background: var(--color-line);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.9375rem 1.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: all 400ms var(--ease-cine);
+  }
+
+  .btn-copper {
+    background: var(--color-copper);
+    color: #fff;
+  }
+
+  .btn-copper:hover {
+    background: #c9551f;
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-chalk);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-copper);
+    color: var(--color-copper);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+/*
+ * Reduced motion: Framer handles its own animations through MotionConfig, but
+ * scroll-linked transforms and CSS transitions have to be disabled here too.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
