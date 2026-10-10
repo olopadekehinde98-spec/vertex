@@ -95,7 +95,8 @@ for (const fraction of [0.02, 0.3, 0.6, 0.95]) {
   await parkIn("land", fraction);
   const s = await p.evaluate(() => {
     const el = document.querySelector("#land polygon");
-    const frame = [...document.querySelectorAll("#land svg")].pop();
+    const frame = [...document.querySelectorAll("#land svg")]
+      .sort((a, b) => b.querySelectorAll("g").length - a.querySelectorAll("g").length)[0];
     return {
       boundary: el ? +parseFloat(getComputedStyle(el).opacity).toFixed(2) : -1,
       towerDrawn: frame ? [...frame.querySelectorAll("g")].filter((g) => parseFloat(getComputedStyle(g).opacity) > 0.5).length : -1,

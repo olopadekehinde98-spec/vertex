@@ -15,9 +15,9 @@ npm run preview  # then: node scripts/verify-scroll.mjs
 
 ## The idea
 
-The visitor arrives at a finished tower at sunset. As soon as they scroll, the camera pulls back off it and drops into empty land — and from there they build the thing they were just looking at:
+The visitor arrives at a finished tower at sunset. As soon as they scroll, the camera pulls back off it and drops into empty land — and from there they build the thing they were just looking at. A numbered **scroll journey** down the left edge tracks where they are:
 
-`Vision → Land → Foundation → Structure → Progress → Finishing → Completion → Expertise → Projects → Start a project`
+`Hero → Land & Planning → Foundation → Structure → Building Progress → Finishing → Completed Building → Our Services → Project Showcase → Footer`
 
 The last stage returns to the same photograph the page opened with, so the journey closes where it began.
 
@@ -34,16 +34,17 @@ Two pieces carry that:
 - **`components/StageLayers.tsx`** — photographic layers whose opacity is a function of scroll. Layer *n* is fully opaque at position `n/(count-1)` and crossfades to its neighbours between.
 - **`components/BuildingFrame.tsx`** — the tower as vector geometry. Each of the 18 floors owns a slice of the scroll range, so the frame genuinely assembles floor by floor rather than cutting between pictures.
 
-![Land stage](docs/land.jpg)
+![Land and planning](docs/land.jpg)
 
-In stage 02 the survey drawing is laid over the photograph of the site: boundary, grid, floor plate in perspective, then the tower rising off the plan — each element drawn across its own slice of the scroll.
+In the land stage the survey drawing is laid over the photograph of the site — boundary, grid, floor plate in perspective, then the tower rising off the plan — while the planning panel beside it ticks through Site Survey, Planning, 3D Design and Approval on the same scroll value.
 
-![Structural breakdown](docs/exploded.jpg)
+![Our services](docs/services.jpg)
+![Project showcase](docs/showcase.jpg)
 
 ## Structure
 
-- `src/sections/` — one file per stage, in scroll order: `Hero`, `Land`, `Foundation`, `Structure` (which contains the exploded view), `Progress`, `Finishing`, `Completion`, `Expertise`, `Projects`, `FinalCTA`.
-- `src/components/` — `Navbar`, `ScrollRail` (the stage indicator), `Intro` (title card), `StageLayers`, `BuildingFrame`, `Img`, `SplitLines`, `Reveal`, `Footer`.
+- `src/sections/` — one file per stage, in scroll order: `Hero`, `Land`, `Foundation`, `Structure` (which contains the exploded view), `Progress`, `Finishing`, `Completion`, `Services`, `Showcase`, `FinalCTA`.
+- `src/components/` — `Navbar`, `JourneyRail` (the numbered stage rail), `Intro` (title card), `StageLayers`, `BuildingFrame`, `Img`, `SplitLines`, `Reveal`, `Footer`.
 - `src/data/content.ts` — all copy, imagery and project data. Edit content here, not in the sections.
 - `src/hooks/useSectionProgress.ts` — the scroll hook every stage uses.
 - Design tokens live in the `@theme` block of `src/index.css` — Tailwind v4, so there is no `tailwind.config.js`.
@@ -54,13 +55,14 @@ In stage 02 the survey drawing is laid over the photograph of the site: boundary
 
 Motion respects `prefers-reduced-motion` through `MotionConfig reducedMotion="user"`; the intro title card is skipped entirely and scroll-linked transforms are gated separately, since `MotionConfig` does not cover those.
 
-The stage rail shows its labels only where the layout has room beside the content, and is anchored to the frame's gutter on wide screens, so it never sits on top of a heading.
+Nothing is gated on `pointer: fine`. Scroll-driven motion runs under a thumb exactly as it does under a mouse, and no information is hidden behind hover — the finishing-stage hotspots open on tap as well, and the service cards are a swipeable rail on a phone.
 
 ## Checks
 
 Verified with headless Chrome against the built site:
 
 - the structure readout hits 0 / 25 / 50 / 75 / 100% at exactly those fractions of its stage, and reverses when scrolled back;
+- the same readout advances 14% → 50% → 86% on a 390px touch device, so the phone gets the build too;
 - the land wireframe rises from 0 to 19 floors across its stage;
 - the foundation depth gauge descends to −8.5 m and returns to grade;
 - no horizontal overflow, clipped text, unloaded images, sub-10px text or console errors at 360, 390, 740 landscape, 768, 1024 and 1440.

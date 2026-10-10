@@ -30,7 +30,7 @@ export function Progress() {
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/45 to-void/55" />
         <div className="absolute inset-0 bg-gradient-to-r from-void/85 via-transparent to-transparent" />
 
-        <div className="frame relative grid h-full items-end gap-10 pb-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-0 lg:pl-28 xl:pl-36 2xl:pl-56">
+        <div className="frame relative grid h-full items-end gap-10 pb-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-0">
           <motion.div style={motionOK ? { opacity: textFade } : undefined} className="max-w-[52ch]">
             <p className="spec mb-5 flex items-center gap-3 text-[10px]">
               <span className="h-px w-9 bg-copper" />

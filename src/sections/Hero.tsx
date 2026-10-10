@@ -1,4 +1,5 @@
 import { motion, useTransform } from "framer-motion";
+import { Play } from "lucide-react";
 import { useRef } from "react";
 import { Img } from "../components/Img";
 import { SplitLines } from "../components/SplitLines";
@@ -10,9 +11,8 @@ import { EASE, goTo } from "../lib/ui";
 /**
  * Stage 01 — Vision.
  *
- * The finished building, shown first. As the visitor starts to scroll, the
- * camera pulls back and drops away from it: the frame scales down and lifts
- * while the image darkens, so the hand-off into the empty land reads as
+ * The finished building, shown first. As the visitor starts to scroll the camera
+ * pulls back and drops away from it, so the hand-off into the empty land reads as
  * travelling backwards through time rather than one section fading into another.
  */
 export function Hero({ ready }: { ready: boolean }) {
@@ -20,45 +20,39 @@ export function Hero({ ready }: { ready: boolean }) {
   const motionOK = useMotionOK();
   const p = useSectionProgress(ref, ["start start", "end start"]);
 
-  // Camera pulling away from the completed tower.
   const scale = useTransform(p, [0, 1], [1, 0.82]);
   const y = useTransform(p, [0, 1], ["0%", "12%"]);
   const dim = useTransform(p, [0, 0.75], [0, 0.85]);
-  const contentFade = useTransform(p, [0, 0.4], [1, 0]);
-
-  const delay = ready ? 0 : 0.2;
+  const fade = useTransform(p, [0, 0.45], [1, 0]);
 
   return (
     <section
       id="vision"
       ref={ref}
-      className="relative isolate flex h-[100svh] min-h-[640px] flex-col justify-end overflow-hidden bg-void"
+      className="relative isolate flex h-[100svh] min-h-[620px] flex-col overflow-hidden bg-void"
     >
-      <motion.div
-        className="absolute inset-0 -z-20"
-        style={motionOK ? { scale, y } : undefined}
-      >
+      <motion.div className="absolute inset-0 -z-20" style={motionOK ? { scale, y } : undefined}>
         <Img photo={photos.tower} priority sizes="100vw" widths={[828, 1280, 1920]} />
       </motion.div>
 
-      {/* Grading: keep the sky, sink the base so type always has a ground. */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-void via-void/55 to-void/25" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-void/90 via-void/30 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-void via-void/55 to-void/30" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-void/92 via-void/35 to-transparent" />
       <motion.div
         className="absolute inset-0 -z-10 bg-void"
         style={motionOK ? { opacity: dim } : { opacity: 0 }}
+        aria-hidden
       />
 
       <motion.div
-        className="frame relative flex flex-1 flex-col justify-end pt-28 pb-10 lg:pl-28 xl:pl-36 2xl:pl-56"
-        style={motionOK ? { opacity: contentFade } : undefined}
+        className="frame relative flex flex-1 items-center pt-24"
+        style={motionOK ? { opacity: fade } : undefined}
       >
-        <div className="flex flex-1 flex-col justify-center">
+        <div className="max-w-[46rem]">
           <motion.p
             className="spec mb-6 flex items-center gap-3 text-[10px]"
             initial={{ opacity: 0 }}
             animate={ready ? { opacity: 1 } : {}}
-            transition={{ delay: delay + 0.1, duration: 0.8 }}
+            transition={{ delay: 0.1, duration: 0.8 }}
           >
             <span className="h-px w-9 bg-copper" />
             {hero.eyebrow}
@@ -68,9 +62,9 @@ export function Hero({ ready }: { ready: boolean }) {
             <SplitLines
               as="h1"
               play
-              delay={delay + 0.25}
+              delay={0.25}
               stagger={0.12}
-              className="signage max-w-[14ch] text-[clamp(2.75rem,8.5vw,7.5rem)]"
+              className="signage text-[clamp(2.6rem,7.5vw,6.5rem)]"
               lines={[
                 hero.lines[0],
                 <span key="l2">
@@ -81,66 +75,86 @@ export function Hero({ ready }: { ready: boolean }) {
           )}
 
           <motion.p
-            className="mt-7 max-w-[46ch] text-[15px] leading-[1.75] text-mute"
+            className="mt-7 max-w-[44ch] text-[15px] leading-[1.75] text-mute"
             initial={{ opacity: 0, y: 18 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: delay + 0.85, duration: 0.9, ease: EASE }}
+            transition={{ delay: 0.85, duration: 0.9, ease: EASE }}
           >
             {hero.body}
           </motion.p>
 
           <motion.div
-            className="mt-9 flex flex-wrap items-center gap-3"
+            className="mt-9 flex flex-wrap items-center gap-5"
             initial={{ opacity: 0, y: 18 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: delay + 1.05, duration: 0.9, ease: EASE }}
+            transition={{ delay: 1.05, duration: 0.9, ease: EASE }}
           >
-            <button type="button" onClick={() => goTo("land")} className="btn btn-copper">
-              Explore the Process
+            <button type="button" onClick={() => goTo("showcase")} className="btn btn-copper">
+              {hero.primary}
               <span aria-hidden>→</span>
             </button>
-            <button type="button" onClick={() => goTo("completion")} className="btn btn-ghost">
-              <span aria-hidden>▶</span>
-              Watch the Story
+            <button
+              type="button"
+              onClick={() => goTo("land")}
+              className="group flex items-center gap-3 py-2.5 text-[13px] text-chalk"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-full border border-line-strong transition-colors duration-300 group-hover:border-copper group-hover:text-copper">
+                <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" strokeWidth={0} />
+              </span>
+              {hero.secondary}
             </button>
           </motion.div>
         </div>
 
-        {/* Figures. Labelled as demonstration data, because they are. */}
-        <motion.div
-          className="mt-10 border-t border-line pt-6"
-          initial={{ opacity: 0 }}
-          animate={ready ? { opacity: 1 } : {}}
-          transition={{ delay: delay + 1.3, duration: 0.9 }}
+        {/* Figures, stacked down the right edge. Labelled as demonstration data. */}
+        <motion.dl
+          className="absolute top-1/2 right-5 hidden -translate-y-1/2 flex-col gap-7 border-l border-line pl-5 lg:flex xl:right-10"
+          initial={{ opacity: 0, x: 20 }}
+          animate={ready ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: 1.25, duration: 0.9, ease: EASE }}
         >
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:ml-auto lg:max-w-xl">
-            {hero.stats.map((s) => (
-              <div key={s.label} className="min-w-0">
-                <dt className="signage text-[1.75rem] text-chalk sm:text-[2rem]">{s.value}</dt>
-                <dd className="spec mt-1 text-[10px]">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="spec mt-5 text-[10px] text-faint">{hero.statsNote}</p>
-        </motion.div>
+          {hero.stats.map((s) => (
+            <div key={s.label} className="min-w-0">
+              <dt className="signage text-[1.9rem] leading-none text-chalk">{s.value}</dt>
+              <dd className="spec mt-1.5 text-[10px]">{s.label}</dd>
+            </div>
+          ))}
+          <p className="spec max-w-[14ch] text-[10px] leading-snug text-faint">{hero.statsNote}</p>
+        </motion.dl>
+      </motion.div>
+
+      {/* Phones get the same figures as a strip, rather than losing them. */}
+      <motion.div
+        className="frame relative pb-6 lg:hidden"
+        style={motionOK ? { opacity: fade } : undefined}
+        initial={{ opacity: 0 }}
+        animate={ready ? { opacity: 1 } : {}}
+        transition={{ delay: 1.25, duration: 0.8 }}
+      >
+        <dl className="grid grid-cols-4 gap-3 border-t border-line pt-4">
+          {hero.stats.map((s) => (
+            <div key={s.label} className="min-w-0">
+              <dt className="signage text-[1.15rem] leading-none text-chalk">{s.value}</dt>
+              <dd className="spec mt-1 text-[10px] leading-tight">{s.label}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="spec mt-3 text-[10px] text-faint">{hero.statsNote}</p>
       </motion.div>
 
       <motion.button
         type="button"
         onClick={() => goTo("land")}
-        className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 py-2"
+        className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 py-2 lg:flex"
         initial={{ opacity: 0 }}
         animate={ready ? { opacity: 1 } : {}}
-        transition={{ delay: delay + 1.5, duration: 0.8 }}
-        style={motionOK ? { opacity: contentFade } : undefined}
+        transition={{ delay: 1.5, duration: 0.8 }}
+        style={motionOK ? { opacity: fade } : undefined}
       >
+        <span className="grid h-9 w-9 place-items-center rounded-full border border-line-strong text-copper">
+          <span aria-hidden>↓</span>
+        </span>
         <span className="spec text-[10px]">Scroll</span>
-        <motion.span
-          className="block h-8 w-px bg-gradient-to-b from-copper to-transparent"
-          animate={motionOK ? { scaleY: [0.4, 1, 0.4] } : {}}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-          style={{ originY: 0 }}
-        />
       </motion.button>
     </section>
   );

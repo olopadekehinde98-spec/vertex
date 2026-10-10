@@ -5,13 +5,13 @@ import { Logo } from "./Navbar";
 export function Footer() {
   return (
     <footer className="border-t border-line bg-void">
-      <div className="frame py-14 lg:pl-28 xl:pl-36 2xl:pl-56">
+      <div className="frame py-14">
         <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
           <div className="min-w-0">
             <Logo />
             <p className="spec mt-4 text-[10px]">{brand.disciplines}</p>
             <p className="mt-5 max-w-[34ch] text-[13px] leading-relaxed text-faint">
-              {contact.lines[1]}
+              {contact.note}
             </p>
           </div>
 

@@ -68,7 +68,7 @@ export function Structure() {
           <span className="spec mt-1 max-w-[12ch] text-right text-[10px] text-copper">{stage}</span>
         </motion.div>
 
-        <div className="frame relative flex h-full flex-col justify-end pb-14 lg:pb-20 lg:pl-28 xl:pl-36 2xl:pl-56">
+        <div className="frame relative flex h-full flex-col justify-end pb-14 lg:pb-20">
           <motion.div style={motionOK ? { opacity: textFade } : undefined} className="max-w-[52ch]">
             <p className="spec mb-5 flex items-center gap-3 text-[10px]">
               <span className="h-px w-9 bg-copper" />
@@ -115,7 +115,7 @@ function ExplodedView({
       className="absolute inset-0 z-20 flex items-center bg-void/[0.97]"
       style={{ opacity: fade, pointerEvents: "none" }}
     >
-      <div className="frame w-full lg:pl-28 xl:pl-36 2xl:pl-56">
+      <div className="frame w-full">
         <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div className="min-w-0">
             <p className="spec mb-5 flex items-center gap-3 text-[10px]">

@@ -88,7 +88,7 @@ export function Foundation() {
           </span>
         </div>
 
-        <div className="frame relative flex h-full flex-col justify-end pb-14 lg:pb-20 lg:pl-28 xl:pl-36 2xl:pl-56">
+        <div className="frame relative flex h-full flex-col justify-end pb-14 lg:pb-20">
           <motion.div style={motionOK ? { opacity: textFade } : undefined} className="max-w-[52ch]">
             <p className="spec mb-5 flex items-center gap-3 text-[10px]">
               <span className="h-px w-9 bg-copper" />

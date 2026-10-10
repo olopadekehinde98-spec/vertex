@@ -31,7 +31,7 @@ export function FinalCTA() {
       </motion.div>
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-void via-void/65 to-void/40" />
 
-      <div className="frame relative lg:pl-28 xl:pl-36 2xl:pl-56">
+      <div className="frame relative">
         <p className="spec mb-5 flex items-center gap-3 text-[10px]">
           <span className="h-px w-9 bg-copper" />
           10 — Start Here

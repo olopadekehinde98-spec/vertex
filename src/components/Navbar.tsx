@@ -4,17 +4,19 @@ import { useEffect, useState } from "react";
 import { brand, navLinks } from "../data/content";
 import { EASE, goTo } from "../lib/ui";
 
-export function Logo({ compact = false }: { compact?: boolean }) {
+export function Logo() {
   return (
     <span className="inline-flex items-center gap-2.5">
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-copper" fill="none" aria-hidden>
-        <path d="M3 4h18L12 21 3 4Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-        <path d="M8.5 4 12 10.5 15.5 4" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
+      <svg viewBox="0 0 24 24" className="h-7 w-7 text-copper" fill="none" aria-hidden>
+        <path
+          d="M12 2.6 20.5 7v10L12 21.4 3.5 17V7L12 2.6Z"
+          stroke="currentColor"
+          strokeWidth="1.3"
+          strokeLinejoin="round"
+        />
+        <path d="M8 9.2 12 16l4-6.8" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
       </svg>
-      <span className="signage text-[1.15rem] tracking-[0.3em] text-chalk">{brand.name}</span>
-      {!compact && (
-        <span className="spec hidden text-[10px] tracking-[0.3em] md:inline">Engineering</span>
-      )}
+      <span className="signage text-[1.1rem] tracking-[0.26em] text-chalk">{brand.name}</span>
     </span>
   );
 }
@@ -23,8 +25,22 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [active, setActive] = useState(navLinks[0].href);
 
-  useMotionValueEvent(scrollY, "change", (y) => setSolid(y > 60));
+  useMotionValueEvent(scrollY, "change", (y) => {
+    setSolid(y > 60);
+    const probe = y + window.innerHeight * 0.4;
+    let best = -1;
+    let current = navLinks[0].href;
+    for (const l of navLinks) {
+      const el = document.querySelector<HTMLElement>(l.href);
+      if (el && el.offsetTop <= probe && el.offsetTop > best) {
+        best = el.offsetTop;
+        current = l.href;
+      }
+    }
+    setActive(current);
+  });
 
   useEffect(() => {
     if (!menu) return;
@@ -41,10 +57,8 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-[60] border-b transition-[background-color,border-color,padding,backdrop-filter] duration-500 ${
-          solid
-            ? "border-line bg-void/85 py-3 backdrop-blur-xl"
-            : "border-transparent py-5"
+        className={`fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,padding,backdrop-filter] duration-500 xl:pl-[132px] ${
+          solid ? "border-b border-line bg-void/88 py-2.5 backdrop-blur-xl" : "py-4"
         }`}
       >
         <nav aria-label="Main" className="frame flex items-center justify-between gap-6">
@@ -52,24 +66,34 @@ export function Navbar() {
             <Logo />
           </a>
 
-          <ul className="hidden items-center gap-9 lg:flex">
-            {navLinks.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="spec py-2.5 text-[11px] text-mute transition-colors duration-300 hover:text-chalk"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
+          <ul className="hidden items-center gap-8 lg:flex">
+            {navLinks.map((l) => {
+              const on = active === l.href;
+              return (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    className={`relative block py-2.5 text-[12.5px] transition-colors duration-300 ${
+                      on ? "text-chalk" : "text-mute hover:text-chalk"
+                    }`}
+                  >
+                    {l.label}
+                    <span
+                      className={`absolute inset-x-0 -bottom-0.5 h-[2px] origin-left bg-copper transition-transform duration-400 ${
+                        on ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <button
               type="button"
-              onClick={() => goTo("contact")}
-              aria-label="Search the site"
+              onClick={() => goTo("showcase")}
+              aria-label="Search projects"
               className="hidden h-11 w-11 place-items-center text-mute transition-colors hover:text-chalk sm:grid"
             >
               <Search className="h-[18px] w-[18px]" strokeWidth={1.5} />
@@ -77,7 +101,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => goTo("contact")}
-              className="btn btn-copper hidden py-3 sm:inline-flex"
+              className="btn btn-copper hidden py-3 text-[11px] sm:inline-flex"
             >
               Start a Project
               <span aria-hidden>→</span>
@@ -107,8 +131,8 @@ export function Navbar() {
             exit={{ clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
-            <div className="frame flex items-center justify-between py-5">
-              <Logo compact />
+            <div className="frame flex items-center justify-between py-4">
+              <Logo />
               <button
                 type="button"
                 onClick={() => setMenu(false)}
