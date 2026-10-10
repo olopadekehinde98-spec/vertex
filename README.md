@@ -15,7 +15,7 @@ npm run preview  # then: node scripts/verify-scroll.mjs
 
 ## The idea
 
-The visitor arrives at a finished tower at sunset. As soon as they scroll, the camera pulls back off it and drops into empty land — and from there they build the thing they were just looking at. A numbered **scroll journey** down the left edge tracks where they are:
+The visitor arrives at a finished tower at sunset. As soon as they scroll, the camera pulls back off it and drops into empty land — and from there they build the thing they were just looking at:
 
 `Hero → Land & Planning → Foundation → Structure → Building Progress → Finishing → Completed Building → Our Services → Project Showcase → Footer`
 
@@ -44,7 +44,7 @@ In the land stage the survey drawing is laid over the photograph of the site —
 ## Structure
 
 - `src/sections/` — one file per stage, in scroll order: `Hero`, `Land`, `Foundation`, `Structure` (which contains the exploded view), `Progress`, `Finishing`, `Completion`, `Services`, `Showcase`, `FinalCTA`.
-- `src/components/` — `Navbar`, `JourneyRail` (the numbered stage rail), `Intro` (title card), `StageLayers`, `BuildingFrame`, `Img`, `SplitLines`, `Reveal`, `Footer`.
+- `src/components/` — `Navbar`, `Intro` (title card), `StageLayers`, `BuildingFrame`, `Img`, `SplitLines`, `Reveal`, `Footer`.
 - `src/data/content.ts` — all copy, imagery and project data. Edit content here, not in the sections.
 - `src/hooks/useSectionProgress.ts` — the scroll hook every stage uses.
 - Design tokens live in the `@theme` block of `src/index.css` — Tailwind v4, so there is no `tailwind.config.js`.

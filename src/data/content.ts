@@ -21,20 +21,6 @@ export const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-/** The scroll journey rail — ten numbered stops down the left edge. */
-export const journey = [
-  { no: 1, label: "Hero", sub: "Concept", id: "vision" },
-  { no: 2, label: "Land", sub: "& Planning", id: "land" },
-  { no: 3, label: "Foundation", sub: "", id: "foundation" },
-  { no: 4, label: "Structure", sub: "", id: "structure" },
-  { no: 5, label: "Building", sub: "Progress", id: "progress" },
-  { no: 6, label: "Finishing", sub: "", id: "finishing" },
-  { no: 7, label: "Completed", sub: "Building", id: "completion" },
-  { no: 8, label: "Our Services", sub: "", id: "services" },
-  { no: 9, label: "Project", sub: "Showcase", id: "showcase" },
-  { no: 10, label: "Footer", sub: "", id: "contact" },
-];
-
 /* ---------------------------------------------------------------- imagery */
 
 export const photos = {

@@ -2,7 +2,6 @@ import { MotionConfig } from "framer-motion";
 import { useState } from "react";
 import { Footer } from "./components/Footer";
 import { Intro } from "./components/Intro";
-import { JourneyRail } from "./components/JourneyRail";
 import { Navbar } from "./components/Navbar";
 import { Completion } from "./sections/Completion";
 import { FinalCTA } from "./sections/FinalCTA";
@@ -24,23 +23,19 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <Intro onDone={() => setReady(true)} />
       <Navbar />
-      <JourneyRail />
-      {/* The journey rail is fixed to the left gutter, so the page sits beside it. */}
-      <div className="xl:pl-[132px]">
-        <main>
-          <Hero ready={ready} />
-          <Land />
-          <Foundation />
-          <Structure />
-          <Progress />
-          <Finishing />
-          <Completion />
-          <Services />
-          <Showcase />
-          <FinalCTA />
-        </main>
-        <Footer />
-      </div>
+      <main>
+        <Hero ready={ready} />
+        <Land />
+        <Foundation />
+        <Structure />
+        <Progress />
+        <Finishing />
+        <Completion />
+        <Services />
+        <Showcase />
+        <FinalCTA />
+      </main>
+      <Footer />
     </MotionConfig>
   );
 }
